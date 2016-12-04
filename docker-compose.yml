@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  puppet:
+    container_name: puppet-master
+    hostname: puppet-master
+    image: flyer8/puppetmaster
+    ports:
+      - 8140:8140
+    volumes:
+      - /opt/puppet/puppetlabs/code/:/etc/puppetlabs/code/
+      - /opt/puppet/puppetlabs/r10k/:/etc/puppetlabs/r10k/
+      - /opt/puppet/puppetlabs/puppet/ssl:/etc/puppetlabs/puppet/ssl/
+      - /opt/puppet/puppetlabs/serverdata:/opt/puppetlabs/server/data/puppetserver/
+    # In some cases unqualified hostnames can have the .local suffix
+    # added, I've seen this under Docker of Mac Beta for instance.
+    # Due to needing to access PuppetDB on same hostame as signed in the
+    # certificate you may need to uncommant the following lines
+    #environment:
+    #  - PUPPETDB_SERVER_URLS=https://puppetdb.local:8081
+    #links:
+    #  - puppetdb:puppetdb.local
